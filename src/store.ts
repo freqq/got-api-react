@@ -1,8 +1,8 @@
+import thunkMiddleware from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware, compose, Reducer, AnyAction } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import { connectRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import thunkMiddleware from 'redux-thunk';
 
 import { characters, ICharacters } from 'reducers/charactersReducer';
 import { house, IHouse } from 'reducers/houseReducer';
