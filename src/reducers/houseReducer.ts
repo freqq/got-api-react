@@ -21,7 +21,7 @@ export const house = (state: IHouse, { type, payload }: ActionInterface): IHouse
         ...stateDefinition,
         isError: false,
         isFetching: false,
-        data: payload.housesData,
+        data: payload.houseData,
       };
     case HOUSE_DATA_FAIL:
       return { ...stateDefinition, isFetching: false, isError: true };

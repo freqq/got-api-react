@@ -9,16 +9,12 @@ export interface ICharacters {
   data: Character[];
   isError: boolean;
   isFetching: boolean;
-  perPage: number;
-  textFilter: string;
 }
 
 export const REDUCER_INITIAL_STATE: ICharacters = {
   data: [],
   isError: false,
   isFetching: true,
-  perPage: 10,
-  textFilter: '',
 };
 
 export const characters = (state: ICharacters, { type, payload }: ActionInterface): ICharacters => {

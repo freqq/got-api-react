@@ -1,14 +1,30 @@
 import React from 'react';
 
-import { InputFieldWrapper } from 'components/InputField/InputField.styles';
+import clearIcon from 'assets/close.png';
+import {
+  InputFieldWrapper,
+  InputFieldElement,
+  ClearButton,
+  ClearButtonIcon,
+} from 'components/InputField/InputField.styles';
 
-const InputField: React.FC<Props> = ({ value, onChange }: Props) => (
-  <InputFieldWrapper value={value} onChange={evt => onChange(evt.target.value)} />
+const InputField: React.FC<Props> = ({ value, onChange, placeholder }: Props) => (
+  <InputFieldWrapper>
+    <InputFieldElement
+      value={value}
+      onChange={evt => onChange(evt.target.value)}
+      placeholder={placeholder}
+    />
+    <ClearButton onClick={() => onChange('')}>
+      <ClearButtonIcon src={clearIcon} alt="clear-icon" />
+    </ClearButton>
+  </InputFieldWrapper>
 );
 
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  placeholder: string;
 }
 
 export default InputField;

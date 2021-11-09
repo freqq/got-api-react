@@ -7,4 +7,15 @@ export const ButtonWrapper = styled.button`
   outline: none;
   background: none;
   border: 1px solid #333;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+  }
 `;

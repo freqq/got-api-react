@@ -5,6 +5,7 @@ import { connectRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
 import { characters, ICharacters } from 'reducers/charactersReducer';
+import { charactersFilter, ICharactersFilter } from 'reducers/charactersFilterReducer';
 import { house, IHouse } from 'reducers/houseReducer';
 
 export const history = createBrowserHistory();
@@ -20,6 +21,7 @@ declare global {
 
 export interface IApplicationStore {
   characters: ICharacters;
+  charactersFilter: ICharactersFilter;
   house: IHouse;
 }
 
@@ -32,6 +34,7 @@ if (
 const rootReducer = combineReducers<Reducer<IApplicationStore, AnyAction>>({
   router: connectRouter(history),
   characters,
+  charactersFilter,
   house,
 });
 

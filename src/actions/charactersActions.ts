@@ -18,14 +18,16 @@ export const makeListOfCharactersOk = (charactersList: Character[]): ActionInter
   payload: { charactersList },
 });
 
-export const fetchListOfCharacters = (): ThunkResult<Promise<void>> => dispatch => {
-  dispatch(makeListOfCharactersLoading());
+export const fetchListOfCharacters =
+  (textFilter: string, pageNumber: number, pageSize: number): ThunkResult<Promise<void>> =>
+  dispatch => {
+    dispatch(makeListOfCharactersLoading());
 
-  return getListOfCharacters()
-    .then((res: any) => {
-      dispatch(makeListOfCharactersOk(res.data));
-    })
-    .catch(() => {
-      dispatch(makeListOfCharactersFail());
-    });
-};
+    return getListOfCharacters(textFilter, pageNumber, pageSize)
+      .then((res: any) => {
+        dispatch(makeListOfCharactersOk(res.data));
+      })
+      .catch(() => {
+        dispatch(makeListOfCharactersFail());
+      });
+  };
