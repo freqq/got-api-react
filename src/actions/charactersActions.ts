@@ -1,5 +1,5 @@
 import { getListOfCharacters } from 'handlers/apiHandler';
-import { ActionInterface, Character, ThunkResult } from 'common/types';
+import { ActionInterface, Character, Gender, ThunkResult } from 'common/types';
 
 export const LIST_OF_CHARACTERS_LOADING = 'LIST_OF_CHARACTERS_LOADING';
 export const LIST_OF_CHARACTERS_OK = 'LIST_OF_CHARACTERS_OK';
@@ -19,11 +19,16 @@ export const makeListOfCharactersOk = (charactersList: Character[]): ActionInter
 });
 
 export const fetchListOfCharacters =
-  (textFilter: string, pageNumber: number, pageSize: number): ThunkResult<Promise<void>> =>
+  (
+    textFilter: string,
+    pageNumber: number,
+    pageSize: number,
+    gender: Gender,
+  ): ThunkResult<Promise<void>> =>
   dispatch => {
     dispatch(makeListOfCharactersLoading());
 
-    return getListOfCharacters(textFilter, pageNumber, pageSize)
+    return getListOfCharacters(textFilter, pageNumber, pageSize, gender)
       .then((res: any) => {
         dispatch(makeListOfCharactersOk(res.data));
       })

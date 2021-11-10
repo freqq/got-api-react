@@ -3,8 +3,8 @@ import React from 'react';
 import { SelectFieldWrapper, Option } from 'components/SelectField/SelectField.styles';
 
 const SelectField: React.FC<Props> = ({ value, options, onChange }) => (
-  <SelectFieldWrapper value={value} onChange={evt => onChange(parseInt(evt.target.value, 10))}>
-    {options.map((option: number) => (
+  <SelectFieldWrapper value={value} onChange={evt => onChange(evt.target.value)}>
+    {options.map(option => (
       <Option key={option} value={option}>
         {option}
       </Option>
@@ -13,9 +13,9 @@ const SelectField: React.FC<Props> = ({ value, options, onChange }) => (
 );
 
 interface Props {
-  value: number;
-  options: number[];
-  onChange: (value: number) => void;
+  value: number | string;
+  options: number[] | string[];
+  onChange: (value: any) => void;
 }
 
 export default SelectField;

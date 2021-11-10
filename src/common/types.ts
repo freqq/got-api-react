@@ -9,6 +9,8 @@ export interface ActionInterface {
 
 export type ThunkResult<R> = ThunkAction<R, IApplicationStore, undefined, Action>;
 
+export type Gender = 'Any' | 'Male' | 'Female';
+
 export interface Character {
   url: string;
   name: string;

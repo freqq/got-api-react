@@ -11,15 +11,22 @@ import CharacterTable from 'components/CharacterTable';
 import Loader from 'components/Loader';
 
 import { fetchListOfCharacters } from 'actions/charactersActions';
-import { setTextFilter, setPageNumber, setPageSize } from 'actions/charactersFilterActions';
+import {
+  setTextFilter,
+  setPageNumber,
+  setPageSize,
+  setGender,
+} from 'actions/charactersFilterActions';
 import { IApplicationStore } from 'store';
-import { Character } from 'common/types';
+import { Character, Gender } from 'common/types';
 
 const CharactersPage: React.FC<Props> = ({
   fetchListOfCharactersFunc,
   setTextFilterFunc,
   setPageSizeFunc,
   setPageNumberFunc,
+  setGenderFunc,
+  gender,
   charactersList,
   isFetching,
   textFilter,
@@ -27,8 +34,8 @@ const CharactersPage: React.FC<Props> = ({
   pageNumber,
 }: Props) => {
   useEffect(() => {
-    fetchListOfCharactersFunc(textFilter, pageNumber, pageSize);
-  }, [textFilter, pageNumber, pageSize]);
+    fetchListOfCharactersFunc(textFilter, pageNumber, pageSize, gender);
+  }, [textFilter, pageNumber, pageSize, gender]);
 
   const shouldShowLoader = () => isFetching;
 
@@ -42,6 +49,8 @@ const CharactersPage: React.FC<Props> = ({
       <Pagination
         pageNumber={pageNumber}
         pageSize={pageSize}
+        gender={gender}
+        setGender={setGenderFunc}
         setPageNumber={setPageNumberFunc}
         setPageSize={setPageSizeFunc}
       />
@@ -59,13 +68,20 @@ interface PropsState {
   textFilter: string;
   pageSize: number;
   pageNumber: number;
+  gender: Gender;
 }
 
 interface PropsDispatch {
-  fetchListOfCharactersFunc: (textFilter: string, pageNumber: number, pageSize: number) => void;
+  fetchListOfCharactersFunc: (
+    textFilter: string,
+    pageNumber: number,
+    pageSize: number,
+    gender: Gender,
+  ) => void;
   setTextFilterFunc: (textFilter: string) => void;
   setPageSizeFunc: (pageSize: number) => void;
   setPageNumberFunc: (pageNumber: number) => void;
+  setGenderFunc: (gender: Gender) => void;
 }
 
 const mapStateToProps = (state: IApplicationStore): PropsState => ({
@@ -75,16 +91,22 @@ const mapStateToProps = (state: IApplicationStore): PropsState => ({
   textFilter: state.charactersFilter.textFilter,
   pageSize: state.charactersFilter.pageSize,
   pageNumber: state.charactersFilter.pageNumber,
+  gender: state.charactersFilter.gender,
 });
 
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<IApplicationStore, undefined, Action>,
 ): PropsDispatch => ({
-  fetchListOfCharactersFunc: (textFilter: string, pageNumber: number, pageSize: number) =>
-    dispatch(fetchListOfCharacters(textFilter, pageNumber, pageSize)),
+  fetchListOfCharactersFunc: (
+    textFilter: string,
+    pageNumber: number,
+    pageSize: number,
+    gender: Gender,
+  ) => dispatch(fetchListOfCharacters(textFilter, pageNumber, pageSize, gender)),
   setTextFilterFunc: (textFilter: string) => dispatch(setTextFilter(textFilter)),
   setPageSizeFunc: (pageSize: number) => dispatch(setPageSize(pageSize)),
   setPageNumberFunc: (pageNumber: number) => dispatch(setPageNumber(pageNumber)),
+  setGenderFunc: (gender: Gender) => dispatch(setGender(gender)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CharactersPage));

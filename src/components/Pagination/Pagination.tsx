@@ -2,11 +2,15 @@ import React from 'react';
 
 import Button from 'components/Button';
 import SelectField from 'components/SelectField';
+import { availableGenders, availablePageSizes } from 'utils/filterOptions';
 import { PaginationWrapper, PaginationButtons } from 'components/Pagination/Pagination.styles';
+import { Gender } from 'common/types';
 
 const Pagination: React.FC<Props> = ({
   pageNumber,
   pageSize,
+  gender,
+  setGender,
   setPageSize,
   setPageNumber,
 }: Props) => (
@@ -16,7 +20,8 @@ const Pagination: React.FC<Props> = ({
       <Button text="Previous page" onClick={() => setPageNumber(pageNumber - 1)} />
       <Button text="Next page" onClick={() => setPageNumber(pageNumber + 1)} />
       <Button text="Last page" onClick={() => setPageNumber(5)} />
-      <SelectField options={[10, 25, 50]} value={pageSize} onChange={setPageSize} />
+      <SelectField options={availablePageSizes} value={pageSize} onChange={setPageSize} />
+      <SelectField options={availableGenders} value={gender} onChange={setGender} />
     </PaginationButtons>
   </PaginationWrapper>
 );
@@ -24,6 +29,8 @@ const Pagination: React.FC<Props> = ({
 interface Props {
   pageNumber: number;
   pageSize: number;
+  gender: Gender;
+  setGender: (gender: Gender) => void;
   setPageSize: (pageSize: number) => void;
   setPageNumber: (pageSize: number) => void;
 }

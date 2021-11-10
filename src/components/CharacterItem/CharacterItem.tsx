@@ -1,15 +1,26 @@
 import React from 'react';
 
 import { CharacterWrapper } from 'components/CharacterItem/CharacterItem.styles';
-import { getCharacterName, getCharacterAliveField } from 'utils/characterItemHelper';
+import {
+  getCharacterName,
+  getCharacterAliveField,
+  getCharacterHouseIds,
+} from 'utils/characterItemHelper';
 import { Character } from 'common/types';
 
 const CharacterItem: React.FC<Props> = ({ characterData }: Props) => (
   <CharacterWrapper>
-    <p>{getCharacterName(characterData)}</p>
-    <p>{getCharacterAliveField(characterData)}</p>
-    <p>{characterData.gender}</p>
-    <p>{characterData.culture || 'Unknown'}</p>
+    <div>{getCharacterName(characterData.name, characterData.aliases)}</div>
+    <div>{getCharacterAliveField(characterData.born, characterData.died)}</div>
+    <div>{characterData.gender}</div>
+    <div>{characterData.culture || 'Unknown'}</div>
+    <div>
+      {characterData.allegiances ? (
+        getCharacterHouseIds(characterData.allegiances)
+      ) : (
+        <p>No allegiances</p>
+      )}
+    </div>
   </CharacterWrapper>
 );
 
