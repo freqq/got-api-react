@@ -18,4 +18,4 @@ export const getListOfCharacters = async (
   });
 
 export const getHouseData = async (houseId: string): Promise<AxiosResponse> =>
-  RequestService.get(`/house/${houseId}`);
+  RequestService.get(`/houses/${houseId}`);
