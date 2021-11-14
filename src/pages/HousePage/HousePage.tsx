@@ -2,20 +2,63 @@ import React, { useEffect } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
+import GenericPage from 'pages/GenericPage';
+import Card from 'components/Card';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import Error from 'components/Error';
+
+import { houseDataList } from 'utils/houseDataList';
+import { CardsGrid } from 'pages/HousePage/HousePage.styles';
 import { fetchHouseData } from 'actions/houseActions';
-import { House } from 'common/types';
+import { CardData, House } from 'common/types';
 import { IApplicationStore } from 'store';
 
-const HousePage: React.FC<Props> = ({ houseData, fetchHouseDataFunc }: Props) => {
+const HousePage: React.FC<Props> = ({
+  houseData,
+  fetchHouseDataFunc,
+  isFetching,
+  isError,
+}: Props) => {
+  const history = useHistory();
   const { houseId } = useParams<{ houseId: string }>();
 
   useEffect(() => {
     fetchHouseDataFunc(houseId);
   }, [houseId]);
 
-  return <div>HousePage: {JSON.stringify(houseData)}</div>;
+  const onBackClick = () => history.push('/');
+
+  if (isError)
+    return (
+      <GenericPage>
+        <Button text="Back to characters list" onClick={onBackClick} />
+        <Error />
+      </GenericPage>
+    );
+
+  return (
+    <GenericPage>
+      <Button text="Back to characters list" onClick={onBackClick} />
+      {isFetching ? (
+        <Loader />
+      ) : (
+        <CardsGrid>
+          {houseDataList(houseData as House).map((cardItem: CardData) => (
+            <Card
+              key={cardItem.name}
+              name={cardItem.name}
+              value={cardItem.value}
+              icon={cardItem.icon}
+            />
+          ))}
+        </CardsGrid>
+      )}
+    </GenericPage>
+  );
 };
 
 HousePage.defaultProps = {
@@ -26,6 +69,8 @@ interface Props extends PropsState, PropsDispatch {}
 
 interface PropsState {
   houseData?: House;
+  isFetching: boolean;
+  isError: boolean;
 }
 
 interface PropsDispatch {
@@ -34,6 +79,8 @@ interface PropsDispatch {
 
 const mapStateToProps = (state: IApplicationStore): PropsState => ({
   houseData: state.house.data,
+  isFetching: state.house.isFetching,
+  isError: state.house.isError,
 });
 
 const mapDispatchToProps = (
@@ -42,4 +89,4 @@ const mapDispatchToProps = (
   fetchHouseDataFunc: (houseId: string) => dispatch(fetchHouseData(houseId)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HousePage));
+export default connect(mapStateToProps, mapDispatchToProps)(HousePage);

@@ -1,6 +1,4 @@
-import React from 'react';
-
-import loader from 'assets/loader.svg';
+import loader from 'assets/loader.gif';
 
 import { LoaderWrapper } from 'components/Loader/Loader.styles';
 

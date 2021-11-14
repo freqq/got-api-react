@@ -1,10 +1,10 @@
-import React from 'react';
+import gotLogo from 'assets/got_logo.svg';
 
-import { NavbarWrapper, NavbarHeader } from 'components/Navbar/Navbar.styles';
+import { NavbarWrapper, NavbarLogo } from 'components/Navbar/Navbar.styles';
 
 const Navbar = () => (
   <NavbarWrapper>
-    <NavbarHeader>GoT API App</NavbarHeader>
+    <NavbarLogo src={gotLogo} alt="got-logo" />
   </NavbarWrapper>
 );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import clearIcon from 'assets/close.png';
+import clearIcon from 'assets/close.svg';
 import {
   InputFieldWrapper,
   InputFieldElement,
@@ -15,7 +15,7 @@ const InputField: React.FC<Props> = ({ value, onChange, placeholder }: Props) =>
       onChange={evt => onChange(evt.target.value)}
       placeholder={placeholder}
     />
-    <ClearButton onClick={() => onChange('')}>
+    <ClearButton disabled={value === ''} onClick={() => onChange('')}>
       <ClearButtonIcon src={clearIcon} alt="clear-icon" />
     </ClearButton>
   </InputFieldWrapper>

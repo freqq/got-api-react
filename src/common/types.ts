@@ -49,3 +49,13 @@ export interface House {
   cadetBranches: string[];
   swornMembers: string[];
 }
+
+export interface ResponseHeaders {
+  link: string;
+}
+
+export interface CardData {
+  name: string;
+  value: string | number;
+  icon: string;
+}

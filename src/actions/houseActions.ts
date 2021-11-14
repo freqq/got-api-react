@@ -20,14 +20,13 @@ export const makeHouseDataOk = (houseData: House): ActionInterface => ({
 
 export const fetchHouseData =
   (houseId: string): ThunkResult<Promise<void>> =>
-  dispatch => {
+  async dispatch => {
     dispatch(makeHouseDataLoading());
 
-    return getHouseData(houseId)
-      .then((res: any) => {
-        dispatch(makeHouseDataOk(res.data));
-      })
-      .catch(() => {
-        dispatch(makeHouseDataFail());
-      });
+    try {
+      const res = await getHouseData(houseId);
+      dispatch(makeHouseDataOk(res.data));
+    } catch (e) {
+      dispatch(makeHouseDataFail());
+    }
   };

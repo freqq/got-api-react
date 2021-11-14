@@ -1,6 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-import { CharacterWrapper } from 'components/CharacterItem/CharacterItem.styles';
+import {
+  CharacterWrapper,
+  CharacterColumnItem,
+  CharacterItemParagraph,
+} from 'components/CharacterItem/CharacterItem.styles';
 import {
   getCharacterName,
   getCharacterAliveField,
@@ -8,21 +13,30 @@ import {
 } from 'utils/characterItemHelper';
 import { Character } from 'common/types';
 
-const CharacterItem: React.FC<Props> = ({ characterData }: Props) => (
-  <CharacterWrapper>
-    <div>{getCharacterName(characterData.name, characterData.aliases)}</div>
-    <div>{getCharacterAliveField(characterData.born, characterData.died)}</div>
-    <div>{characterData.gender}</div>
-    <div>{characterData.culture || 'Unknown'}</div>
-    <div>
-      {characterData.allegiances ? (
-        getCharacterHouseIds(characterData.allegiances)
-      ) : (
-        <p>No allegiances</p>
-      )}
-    </div>
-  </CharacterWrapper>
-);
+const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
+  const history = useHistory();
+  const areHousesAvailable = (allegiances: string[]): boolean => allegiances.length !== 0;
+
+  return (
+    <CharacterWrapper>
+      <CharacterColumnItem>
+        {getCharacterName(characterData.name, characterData.aliases)}
+      </CharacterColumnItem>
+      <CharacterColumnItem>
+        {getCharacterAliveField(characterData.born, characterData.died)}
+      </CharacterColumnItem>
+      <CharacterColumnItem>{characterData.gender}</CharacterColumnItem>
+      <CharacterColumnItem>{characterData.culture || 'Unknown'}</CharacterColumnItem>
+      <CharacterColumnItem>
+        {areHousesAvailable(characterData.allegiances) ? (
+          getCharacterHouseIds(characterData.allegiances, history)
+        ) : (
+          <CharacterItemParagraph>No allegiances</CharacterItemParagraph>
+        )}
+      </CharacterColumnItem>
+    </CharacterWrapper>
+  );
+};
 
 interface Props {
   characterData: Character;

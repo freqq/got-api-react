@@ -1,5 +1,7 @@
 import { getListOfCharacters } from 'handlers/apiHandler';
+import { setMaxPage } from 'actions/charactersFilterActions';
 import { ActionInterface, Character, Gender, ThunkResult } from 'common/types';
+import { extractLastPageFromHeaders } from 'utils/string'
 
 export const LIST_OF_CHARACTERS_LOADING = 'LIST_OF_CHARACTERS_LOADING';
 export const LIST_OF_CHARACTERS_OK = 'LIST_OF_CHARACTERS_OK';
@@ -25,14 +27,15 @@ export const fetchListOfCharacters =
     pageSize: number,
     gender: Gender,
   ): ThunkResult<Promise<void>> =>
-  dispatch => {
+  async dispatch => {
     dispatch(makeListOfCharactersLoading());
 
-    return getListOfCharacters(textFilter, pageNumber, pageSize, gender)
-      .then((res: any) => {
-        dispatch(makeListOfCharactersOk(res.data));
-      })
-      .catch(() => {
-        dispatch(makeListOfCharactersFail());
-      });
+    try {
+      const res: any = await getListOfCharacters(textFilter, pageNumber, pageSize, gender);
+      dispatch(makeListOfCharactersOk(res.data));
+      dispatch(setMaxPage(extractLastPageFromHeaders(res.headers)));
+    } catch (e) {
+      dispatch(makeListOfCharactersFail());
+    }
   };
+

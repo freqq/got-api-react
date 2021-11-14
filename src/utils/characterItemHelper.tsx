@@ -1,26 +1,45 @@
+import { CharacterHouses, CharacterHouseItem } from 'components/CharacterItem/CharacterItem.styles';
+import { History } from 'history';
+import { printArrayOfStringsAfterComma, isEmpty } from 'utils/string';
+
 const getHouseIdFromLink = (allegiance: string): string | undefined => allegiance.split('/').pop();
 
-const getCharacterLifeLength = (born: number, died: number): number => died - born;
+const checkIfYearStringHasNumber = (str: string) => /\d/.test(str);
 
-export const getCharacterName = (name: string, aliases: string[]): string => name + aliases;
+const getYearFromString = (str: string): number => parseInt(str.replace(/^\D+/g, ''), 10);
+
+const getCharacterLifeLength = (born: string, died: string): number =>
+  getYearFromString(died) - getYearFromString(born);
+
+export const getCharacterName = (name: string, aliases: string[]): string =>
+  printArrayOfStringsAfterComma([name, ...aliases].filter((text: string) => text !== ''));
 
 export const getCharacterAliveField = (born: string, died: string): string => {
-  if (!born && !died) return 'Unknown';
+  if (
+    (isEmpty(born) && isEmpty(died)) ||
+    (!checkIfYearStringHasNumber(died) && !checkIfYearStringHasNumber(born))
+  )
+    return 'Unknown';
 
-  if (!born) return 'No';
+  if (isEmpty(born)) return 'No';
 
-  if (!died) return 'Yes';
+  if (isEmpty(died)) return 'Yes';
 
-  if (died) return `No, died at X years old`;
+  if (!isEmpty(died)) return `No, died at ${getCharacterLifeLength(born, died)} years old`;
 
   return '-';
 };
 
-export const getCharacterHouseIds = (allegiances: string[]) => (
-  <div className="character-houses">
+export const getCharacterHouseIds = (allegiances: string[], history: History) => (
+  <CharacterHouses>
     {allegiances.map((allegiance: string) => {
       const houseId = getHouseIdFromLink(allegiance);
-      return <a href={`/house/${houseId}`}>{houseId}</a>;
+
+      return (
+        <CharacterHouseItem key={houseId} onClick={() => history.push(`/house/${houseId}`)}>
+          {houseId}
+        </CharacterHouseItem>
+      );
     })}
-  </div>
+  </CharacterHouses>
 );

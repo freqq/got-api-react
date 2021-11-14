@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import GenericPage from 'pages/GenericPage';
 import InputField from 'components/InputField';
 import Pagination from 'components/Pagination';
 import CharacterTable from 'components/CharacterTable';
-import Loader from 'components/Loader';
 
+import { characterTableHeaders } from 'utils/characterHeader';
 import { fetchListOfCharacters } from 'actions/charactersActions';
 import {
   setTextFilter,
@@ -32,6 +31,8 @@ const CharactersPage: React.FC<Props> = ({
   textFilter,
   pageSize,
   pageNumber,
+  maxPage,
+  isError,
 }: Props) => {
   useEffect(() => {
     fetchListOfCharactersFunc(textFilter, pageNumber, pageSize, gender);
@@ -39,12 +40,14 @@ const CharactersPage: React.FC<Props> = ({
 
   const shouldShowLoader = () => isFetching;
 
+  const shouldShowEmptyList = () => !isFetching && charactersList.length === 0;
+
   return (
     <GenericPage>
       <InputField
         value={textFilter}
         onChange={setTextFilterFunc}
-        placeholder="Search for character..."
+        placeholder="Filter characters by culture..."
       />
       <Pagination
         pageNumber={pageNumber}
@@ -53,8 +56,17 @@ const CharactersPage: React.FC<Props> = ({
         setGender={setGenderFunc}
         setPageNumber={setPageNumberFunc}
         setPageSize={setPageSizeFunc}
+        lastPage={maxPage}
       />
-      {shouldShowLoader() ? <Loader /> : <CharacterTable characters={charactersList} />}
+
+      <CharacterTable
+        characters={charactersList}
+        headerNames={characterTableHeaders}
+        isFetching={shouldShowLoader()}
+        isEmpty={shouldShowEmptyList()}
+        isError={isError}
+        textFilter={textFilter}
+      />
     </GenericPage>
   );
 };
@@ -68,6 +80,7 @@ interface PropsState {
   textFilter: string;
   pageSize: number;
   pageNumber: number;
+  maxPage: number;
   gender: Gender;
 }
 
@@ -91,6 +104,7 @@ const mapStateToProps = (state: IApplicationStore): PropsState => ({
   textFilter: state.charactersFilter.textFilter,
   pageSize: state.charactersFilter.pageSize,
   pageNumber: state.charactersFilter.pageNumber,
+  maxPage: state.charactersFilter.maxPage,
   gender: state.charactersFilter.gender,
 });
 
@@ -109,4 +123,4 @@ const mapDispatchToProps = (
   setGenderFunc: (gender: Gender) => dispatch(setGender(gender)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CharactersPage));
+export default connect(mapStateToProps, mapDispatchToProps)(CharactersPage);

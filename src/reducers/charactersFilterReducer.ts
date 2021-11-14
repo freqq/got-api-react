@@ -4,20 +4,28 @@ import {
   SET_PAGE_SIZE,
   SET_TEXT_FILTER,
   SET_GENDER,
+  SET_MAX_PAGE,
 } from 'actions/charactersFilterActions';
+import {
+  DEFAULT_CHARACTERS_PAGE_SIZE,
+  DEFAULT_CHARACTERS_PAGE_NUMBER,
+  DEFAULT_CHARACTERS_GENDER,
+} from 'common/constants';
 
 export interface ICharactersFilter {
   pageNumber: number;
   pageSize: number;
+  maxPage: number;
   textFilter: string;
   gender: Gender;
 }
 
 export const REDUCER_INITIAL_STATE: ICharactersFilter = {
-  pageNumber: 1,
-  pageSize: 10,
+  pageNumber: DEFAULT_CHARACTERS_PAGE_NUMBER,
+  pageSize: DEFAULT_CHARACTERS_PAGE_SIZE,
+  maxPage: 1,
+  gender: DEFAULT_CHARACTERS_GENDER,
   textFilter: '',
-  gender: 'Any',
 };
 
 export const charactersFilter = (
@@ -30,6 +38,8 @@ export const charactersFilter = (
       return { ...stateDefinition, pageNumber: payload.pageNumber };
     case SET_PAGE_SIZE:
       return { ...stateDefinition, pageSize: payload.pageSize };
+    case SET_MAX_PAGE:
+      return { ...stateDefinition, maxPage: payload.maxPage };
     case SET_TEXT_FILTER:
       return { ...stateDefinition, textFilter: payload.textFilter };
     case SET_GENDER:
