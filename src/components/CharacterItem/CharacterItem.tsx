@@ -6,16 +6,32 @@ import {
   CharacterColumnItem,
   CharacterItemParagraph,
 } from 'components/CharacterItem/CharacterItem.styles';
+import { CharacterHouses, CharacterHouseItem } from 'components/CharacterItem/CharacterItem.styles';
 import {
   getCharacterName,
   getCharacterAliveField,
-  getCharacterHouseIds,
+  getHouseIdFromLink,
 } from 'utils/characterItemHelper';
 import { Character } from 'common/types';
 
 const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
   const history = useHistory();
+
   const areHousesAvailable = (allegiances: string[]): boolean => allegiances.length !== 0;
+
+  const getCharacterHouseIds = (allegiances: string[]) => (
+    <CharacterHouses>
+      {allegiances.map((allegiance: string) => {
+        const houseId = getHouseIdFromLink(allegiance);
+
+        return (
+          <CharacterHouseItem key={houseId} onClick={() => history.push(`/house/${houseId}`)}>
+            {houseId}
+          </CharacterHouseItem>
+        );
+      })}
+    </CharacterHouses>
+  );
 
   return (
     <CharacterWrapper>
@@ -29,7 +45,7 @@ const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
       <CharacterColumnItem>{characterData.culture || 'Unknown'}</CharacterColumnItem>
       <CharacterColumnItem>
         {areHousesAvailable(characterData.allegiances) ? (
-          getCharacterHouseIds(characterData.allegiances, history)
+          getCharacterHouseIds(characterData.allegiances)
         ) : (
           <CharacterItemParagraph>No allegiances</CharacterItemParagraph>
         )}

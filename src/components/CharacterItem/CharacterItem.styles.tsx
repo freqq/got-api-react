@@ -20,6 +20,19 @@ export const CharacterWrapper = styled.li`
   &:last-child {
     border-bottom: none;
   }
+
+  @media (max-width: 750px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(3, 1fr);
+    font-size: 12px;
+  }
+
+  @media (max-width: 400px) {
+    font-size: 11px;
+  }
 `;
 
 export const CharacterColumnItem = styled.div`
@@ -34,6 +47,18 @@ export const CharacterColumnItem = styled.div`
 
   p {
     margin: 0;
+  }
+
+  @media (max-width: 750px) {
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    &:nth-child(2) {
+      display: none;
+    }
   }
 `;
 

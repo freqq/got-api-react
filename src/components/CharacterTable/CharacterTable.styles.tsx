@@ -6,11 +6,13 @@ export const CharacterTableWrapper = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 `;
 
 export const CharacterTableHeader = styled(CharacterWrapper)`
   font-weight: bold;
-  background: rgba(0, 0, 0, 0.12) !important;
+  background: rgba(0, 0, 0, 0.1) !important;
 
   div {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -21,7 +23,7 @@ export const CharacterTableHeader = styled(CharacterWrapper)`
   }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.12) !important;
+    background: rgba(0, 0, 0, 0.1) !important;
   }
 `;
 

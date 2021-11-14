@@ -48,6 +48,7 @@ export const setPageNumber =
 export const setPageSize =
   (pageSize: number): any =>
   (dispatch: any) => {
+    dispatch(setPageNumber(DEFAULT_CHARACTERS_PAGE_NUMBER));
     dispatch(makeSetPageSize(pageSize));
   };
 

@@ -12,3 +12,5 @@ export const extractLastPageFromHeaders = (responseHeaders: ResponseHeaders): nu
 
   return urlParams.page;
 };
+
+export const isNumberInString = (str: string): boolean => /\d/.test(str);

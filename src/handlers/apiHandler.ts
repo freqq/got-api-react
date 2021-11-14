@@ -1,6 +1,6 @@
+import RequestService from 'services/RequestService';
 import { AxiosResponse } from 'axios';
 import { Gender } from 'common/types';
-import RequestService from 'utils/RequestService';
 
 export const getListOfCharacters = async (
   culture: string,
