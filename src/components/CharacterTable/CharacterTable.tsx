@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import CharacterItem from 'components/CharacterItem';
 import Loader from 'components/Loader';
@@ -12,26 +13,30 @@ import {
 } from 'components/CharacterTable/CharacterTable.styles';
 import { CharacterColumnItem } from 'components/CharacterItem/CharacterItem.styles';
 import { Character } from 'common/types';
+import { characterTableHeaders } from 'utils/characterHeader';
+import { IApplicationStore } from 'store';
 
 const CharacterTable: React.FC<Props> = ({
-  characters,
-  headerNames,
+  charactersList,
   isFetching,
-  isEmpty,
   isError,
   textFilter,
 }: Props) => {
+  const isEmpty = (): boolean => !isFetching && charactersList.length === 0;
+
+  const shouldShowTableContent = () => !isFetching && !isEmpty();
+
   const showTableContent = () => {
     if (isFetching) return <Loader />;
 
     if (isError) return <Error />;
 
-    if (isEmpty) return <EmptyList textFilter={textFilter} />;
+    if (isEmpty()) return <EmptyList textFilter={textFilter} />;
 
-    if (!isFetching && !isEmpty)
+    if (shouldShowTableContent())
       return (
         <CharacterTableList>
-          {characters.map((character: Character) => (
+          {charactersList.map((character: Character) => (
             <CharacterItem key={character.url} characterData={character} />
           ))}
         </CharacterTableList>
@@ -40,24 +45,33 @@ const CharacterTable: React.FC<Props> = ({
     return null;
   };
 
+  const showTableHeader = () =>
+    characterTableHeaders.map((name: string) => (
+      <CharacterColumnItem key={name}>{name}</CharacterColumnItem>
+    ));
+
   return (
     <CharacterTableWrapper>
-      <CharacterTableHeader>
-        {headerNames.map((name: string) => (
-          <CharacterColumnItem key={name}>{name}</CharacterColumnItem>
-        ))}
-      </CharacterTableHeader>
+      <CharacterTableHeader>{showTableHeader()}</CharacterTableHeader>
       {showTableContent()}
     </CharacterTableWrapper>
   );
 };
-interface Props {
+
+type Props = PropsState;
+
+interface PropsState {
+  charactersList: Character[];
   isFetching: boolean;
-  isEmpty: boolean;
   isError: boolean;
   textFilter: string;
-  headerNames: string[];
-  characters: Character[];
 }
 
-export default CharacterTable;
+const mapStateToProps = (state: IApplicationStore): PropsState => ({
+  charactersList: state.characters.data,
+  isFetching: state.characters.isFetching,
+  isError: state.characters.isError,
+  textFilter: state.charactersFilter.textFilter,
+});
+
+export default connect(mapStateToProps)(CharacterTable);

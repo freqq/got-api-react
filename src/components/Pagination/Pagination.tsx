@@ -1,7 +1,9 @@
 import React from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'redux';
+import { connect } from 'react-redux';
 
 import Button from 'components/Button';
-import SelectField from 'components/SelectField';
 import PageIndicator from 'components/PageIndicator';
 
 import firstPageIcon from 'assets/first_page.svg';
@@ -9,64 +11,52 @@ import leftArrowIcon from 'assets/left_arrow.svg';
 import rightArrowIcon from 'assets/right_arrow.svg';
 import lastPageIcon from 'assets/last_page.svg';
 
-import { availableGenders, availablePageSizes } from 'utils/filterOptions';
-import {
-  PaginationWrapper,
-  PaginationButtons,
-  PaginationFilters,
-} from 'components/Pagination/Pagination.styles';
-import { Gender } from 'common/types';
+import { setPageNumber } from 'actions/charactersFilterActions';
+import { PaginationWrapper } from 'components/Pagination/Pagination.styles';
+import { IApplicationStore } from 'store';
 
-const Pagination: React.FC<Props> = ({
-  pageNumber,
-  pageSize,
-  gender,
-  lastPage,
-  setGender,
-  setPageSize,
-  setPageNumber,
-}: Props) => (
+const Pagination: React.FC<Props> = ({ pageNumber, maxPage, setPageNumberFunc }: Props) => (
   <PaginationWrapper>
-    <PaginationFilters>
-      <SelectField
-        label="Page size"
-        options={availablePageSizes}
-        value={pageSize}
-        onChange={setPageSize}
-      />
-      <SelectField label="Gender" options={availableGenders} value={gender} onChange={setGender} />
-    </PaginationFilters>
-
-    <PaginationButtons>
-      <Button disabled={pageNumber === 1} icon={firstPageIcon} onClick={() => setPageNumber(1)} />
-      <Button
-        disabled={pageNumber === 1}
-        icon={leftArrowIcon}
-        onClick={() => setPageNumber(pageNumber - 1)}
-      />
-      <PageIndicator pageNumber={pageNumber} lastPage={lastPage} />
-      <Button
-        disabled={pageNumber === lastPage}
-        icon={rightArrowIcon}
-        onClick={() => setPageNumber(pageNumber + 1)}
-      />
-      <Button
-        disabled={pageNumber === lastPage}
-        icon={lastPageIcon}
-        onClick={() => setPageNumber(lastPage)}
-      />
-    </PaginationButtons>
+    <Button disabled={pageNumber === 1} icon={firstPageIcon} onClick={() => setPageNumberFunc(1)} />
+    <Button
+      disabled={pageNumber === 1}
+      icon={leftArrowIcon}
+      onClick={() => setPageNumberFunc(pageNumber - 1)}
+    />
+    <PageIndicator pageNumber={pageNumber} lastPage={maxPage} />
+    <Button
+      disabled={pageNumber === maxPage}
+      icon={rightArrowIcon}
+      onClick={() => setPageNumberFunc(pageNumber + 1)}
+    />
+    <Button
+      disabled={pageNumber === maxPage}
+      icon={lastPageIcon}
+      onClick={() => setPageNumberFunc(maxPage)}
+    />
   </PaginationWrapper>
 );
 
-interface Props {
+interface Props extends PropsState, PropsDispatch {}
+
+interface PropsState {
   pageNumber: number;
-  pageSize: number;
-  gender: Gender;
-  lastPage: number;
-  setGender: (gender: Gender) => void;
-  setPageSize: (pageSize: number) => void;
-  setPageNumber: (pageSize: number) => void;
+  maxPage: number;
 }
 
-export default Pagination;
+interface PropsDispatch {
+  setPageNumberFunc: (pageNumber: number) => void;
+}
+
+const mapStateToProps = (state: IApplicationStore): PropsState => ({
+  pageNumber: state.charactersFilter.pageNumber,
+  maxPage: state.charactersFilter.maxPage,
+});
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<IApplicationStore, undefined, Action>,
+): PropsDispatch => ({
+  setPageNumberFunc: (pageNumber: number) => dispatch(setPageNumber(pageNumber)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pagination);

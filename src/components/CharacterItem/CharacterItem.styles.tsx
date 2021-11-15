@@ -9,7 +9,7 @@ export const CharacterWrapper = styled.li`
   font-size: 13px;
   transition: 0.2s;
 
-  &:nth-child(2n + 1) {
+  &:nth-child(2n + 2) {
     background: rgba(0, 0, 0, 0.03);
   }
 

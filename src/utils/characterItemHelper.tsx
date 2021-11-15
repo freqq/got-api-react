@@ -1,9 +1,12 @@
-import { printArrayOfStringsAfterComma, isEmpty, isNumberInString } from 'utils/string';
-
-const getYearFromString = (str: string): number => parseInt(str.replace(/^\D+/g, ''), 10);
+import {
+  printArrayOfStringsAfterComma,
+  isEmpty,
+  isNumberInString,
+  getNumberFromString,
+} from 'utils/string';
 
 const getCharacterLifeLength = (born: string, died: string): number =>
-  getYearFromString(died) - getYearFromString(born);
+  getNumberFromString(died) - getNumberFromString(born);
 
 export const getHouseIdFromLink = (allegiance: string): string | undefined =>
   allegiance.split('/').pop();

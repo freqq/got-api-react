@@ -27,7 +27,6 @@ export const house = (state: IHouse, { type, payload }: ActionInterface): IHouse
       return { ...stateDefinition, isFetching: false, isError: true };
     case HOUSE_DATA_LOADING:
       return { ...stateDefinition, isFetching: true, isError: false };
-
     default:
       return stateDefinition;
   }

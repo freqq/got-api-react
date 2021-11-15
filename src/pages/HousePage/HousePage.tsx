@@ -28,35 +28,33 @@ const HousePage: React.FC<Props> = ({
 
   useEffect(() => {
     fetchHouseDataFunc(houseId);
-  }, [houseId]);
+  }, [houseId, fetchHouseDataFunc]);
 
   const onBackClick = () => history.push('/');
 
-  if (isError)
+  const showHousePageDetails = () => {
+    if (isError) return <Error />;
+
+    if (isFetching) return <Loader />;
+
     return (
-      <GenericPage>
-        <Button text="Back to characters list" onClick={onBackClick} />
-        <Error />
-      </GenericPage>
+      <CardsGrid>
+        {houseDataList(houseData as House).map((cardItem: CardData) => (
+          <Card
+            key={cardItem.name}
+            name={cardItem.name}
+            value={cardItem.value}
+            icon={cardItem.icon}
+          />
+        ))}
+      </CardsGrid>
     );
+  };
 
   return (
     <GenericPage>
       <Button text="Back to characters list" onClick={onBackClick} />
-      {isFetching ? (
-        <Loader />
-      ) : (
-        <CardsGrid>
-          {houseDataList(houseData as House).map((cardItem: CardData) => (
-            <Card
-              key={cardItem.name}
-              name={cardItem.name}
-              value={cardItem.value}
-              icon={cardItem.icon}
-            />
-          ))}
-        </CardsGrid>
-      )}
+      {showHousePageDetails()}
     </GenericPage>
   );
 };

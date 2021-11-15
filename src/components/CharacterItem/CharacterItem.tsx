@@ -5,8 +5,9 @@ import {
   CharacterWrapper,
   CharacterColumnItem,
   CharacterItemParagraph,
+  CharacterHouses,
+  CharacterHouseItem,
 } from 'components/CharacterItem/CharacterItem.styles';
-import { CharacterHouses, CharacterHouseItem } from 'components/CharacterItem/CharacterItem.styles';
 import {
   getCharacterName,
   getCharacterAliveField,
@@ -19,13 +20,15 @@ const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
 
   const areHousesAvailable = (allegiances: string[]): boolean => allegiances.length !== 0;
 
+  const goToHousePage = (houseId: string) => history.push(`/house/${houseId}`);
+
   const getCharacterHouseIds = (allegiances: string[]) => (
     <CharacterHouses>
       {allegiances.map((allegiance: string) => {
         const houseId = getHouseIdFromLink(allegiance);
 
         return (
-          <CharacterHouseItem key={houseId} onClick={() => history.push(`/house/${houseId}`)}>
+          <CharacterHouseItem key={houseId} onClick={() => goToHousePage(houseId || 'not-found')}>
             {houseId}
           </CharacterHouseItem>
         );

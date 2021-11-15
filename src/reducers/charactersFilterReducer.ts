@@ -39,7 +39,7 @@ export const charactersFilter = (
     case SET_PAGE_SIZE:
       return { ...stateDefinition, pageSize: payload.pageSize };
     case SET_MAX_PAGE:
-      return { ...stateDefinition, maxPage: payload.maxPage };
+      return { ...stateDefinition, maxPage: parseInt(payload.maxPage, 10) };
     case SET_TEXT_FILTER:
       return { ...stateDefinition, textFilter: payload.textFilter };
     case SET_GENDER:
