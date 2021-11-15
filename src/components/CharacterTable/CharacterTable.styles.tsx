@@ -13,6 +13,7 @@ export const CharacterTableWrapper = styled.ul`
 export const CharacterTableHeader = styled(CharacterWrapper)`
   font-weight: bold;
   background: rgba(0, 0, 0, 0.1) !important;
+  padding-right: 15px;
 
   div {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -30,5 +31,5 @@ export const CharacterTableHeader = styled(CharacterWrapper)`
 export const CharacterTableList = styled.div`
   max-height: 50vh;
   overflow-x: hidden;
-  overflow-y: overlay;
+  overflow-y: scroll;
 `;
