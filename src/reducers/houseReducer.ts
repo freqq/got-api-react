@@ -1,5 +1,10 @@
-import { ActionInterface, House } from 'common/types';
-import { HOUSE_DATA_LOADING, HOUSE_DATA_OK, HOUSE_DATA_FAIL } from 'actions/houseActions';
+import { IAction, House } from 'common/types';
+import {
+  HouseUnion,
+  HOUSE_DATA_LOADING,
+  HOUSE_DATA_OK,
+  HOUSE_DATA_FAIL,
+} from 'actions/houseActions';
 
 export interface IHouse {
   data?: House;
@@ -13,7 +18,7 @@ export const REDUCER_INITIAL_STATE: IHouse = {
   isFetching: true,
 };
 
-export const house = (state: IHouse, { type, payload }: ActionInterface): IHouse => {
+export const house = (state: IHouse, { type, payload }: IAction<HouseUnion>): IHouse => {
   const stateDefinition = typeof state === 'undefined' ? REDUCER_INITIAL_STATE : state;
   switch (type) {
     case HOUSE_DATA_OK:
@@ -21,7 +26,7 @@ export const house = (state: IHouse, { type, payload }: ActionInterface): IHouse
         ...stateDefinition,
         isError: false,
         isFetching: false,
-        data: payload.houseData,
+        data: payload as House,
       };
     case HOUSE_DATA_FAIL:
       return { ...stateDefinition, isFetching: false, isError: true };

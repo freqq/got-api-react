@@ -1,5 +1,6 @@
-import { ActionInterface, Gender } from 'common/types';
+import { IAction, Gender } from 'common/types';
 import {
+  CharactersFilterUnion,
   SET_PAGE_NUMBER,
   SET_PAGE_SIZE,
   SET_TEXT_FILTER,
@@ -30,20 +31,20 @@ export const REDUCER_INITIAL_STATE: ICharactersFilter = {
 
 export const charactersFilter = (
   state: ICharactersFilter,
-  { type, payload }: ActionInterface,
+  { type, payload }: IAction<CharactersFilterUnion>,
 ): ICharactersFilter => {
   const stateDefinition = typeof state === 'undefined' ? REDUCER_INITIAL_STATE : state;
   switch (type) {
     case SET_PAGE_NUMBER:
-      return { ...stateDefinition, pageNumber: payload.pageNumber };
+      return { ...stateDefinition, pageNumber: payload as number };
     case SET_PAGE_SIZE:
-      return { ...stateDefinition, pageSize: payload.pageSize };
+      return { ...stateDefinition, pageSize: payload as number };
     case SET_MAX_PAGE:
-      return { ...stateDefinition, maxPage: parseInt(payload.maxPage, 10) };
+      return { ...stateDefinition, maxPage: parseInt(payload as string, 10) };
     case SET_TEXT_FILTER:
-      return { ...stateDefinition, textFilter: payload.textFilter };
+      return { ...stateDefinition, textFilter: payload as string };
     case SET_GENDER:
-      return { ...stateDefinition, gender: payload.gender };
+      return { ...stateDefinition, gender: payload as Gender };
     default:
       return stateDefinition;
   }

@@ -1,4 +1,4 @@
-import { ActionInterface, Gender } from 'common/types';
+import { IAction, Gender, AppThunk } from 'common/types';
 import { DEFAULT_CHARACTERS_PAGE_NUMBER } from 'common/constants';
 
 export const SET_TEXT_FILTER = 'SET_TEXT_FILTER';
@@ -7,60 +7,62 @@ export const SET_PAGE_SIZE = 'SET_PAGE_SIZE';
 export const SET_MAX_PAGE = 'SET_MAX_PAGE';
 export const SET_GENDER = 'SET_GENDER';
 
-export const makeSetTextFilter = (textFilter: string): ActionInterface => ({
+export type CharactersFilterUnion = number | string | Gender;
+
+export const makeSetTextFilter = (textFilter: string): IAction<string> => ({
   type: SET_TEXT_FILTER,
-  payload: { textFilter },
+  payload: textFilter,
 });
 
-export const makeSetPageNumber = (pageNumber: number): ActionInterface => ({
+export const makeSetPageNumber = (pageNumber: number): IAction<number> => ({
   type: SET_PAGE_NUMBER,
-  payload: { pageNumber },
+  payload: pageNumber,
 });
 
-export const makeSetPageSize = (pageSize: number): ActionInterface => ({
+export const makeSetPageSize = (pageSize: number): IAction<number> => ({
   type: SET_PAGE_SIZE,
-  payload: { pageSize },
+  payload: pageSize,
 });
 
-export const makeSetMaxPage = (maxPage: number): ActionInterface => ({
+export const makeSetMaxPage = (maxPage: number): IAction<number> => ({
   type: SET_MAX_PAGE,
-  payload: { maxPage },
+  payload: maxPage,
 });
 
-export const makeSetGender = (gender: Gender): ActionInterface => ({
+export const makeSetGender = (gender: Gender): IAction<Gender> => ({
   type: SET_GENDER,
-  payload: { gender },
+  payload: gender,
 });
 
 export const setTextFilter =
-  (textFilter: string): any =>
-  (dispatch: any) => {
+  (textFilter: string): AppThunk =>
+  dispatch => {
     dispatch(setPageNumber(DEFAULT_CHARACTERS_PAGE_NUMBER));
     dispatch(makeSetTextFilter(textFilter));
   };
 
 export const setPageNumber =
-  (pageNumber: number): any =>
-  (dispatch: any) => {
+  (pageNumber: number): AppThunk =>
+  dispatch => {
     dispatch(makeSetPageNumber(pageNumber));
   };
 
 export const setPageSize =
-  (pageSize: number): any =>
-  (dispatch: any) => {
+  (pageSize: number): AppThunk =>
+  dispatch => {
     dispatch(setPageNumber(DEFAULT_CHARACTERS_PAGE_NUMBER));
     dispatch(makeSetPageSize(pageSize));
   };
 
 export const setMaxPage =
-  (maxPage: number): any =>
-  (dispatch: any) => {
+  (maxPage: number): AppThunk =>
+  dispatch => {
     dispatch(makeSetMaxPage(maxPage));
   };
 
 export const setGender =
-  (gender: Gender): any =>
-  (dispatch: any) => {
+  (gender: Gender): AppThunk =>
+  dispatch => {
     dispatch(setPageNumber(DEFAULT_CHARACTERS_PAGE_NUMBER));
     dispatch(makeSetGender(gender));
   };

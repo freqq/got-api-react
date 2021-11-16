@@ -1,13 +1,18 @@
-import { Action } from 'redux';
+import { AnyAction, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { IApplicationStore } from 'store';
 
-export interface ActionInterface {
+export interface IAction<T = void> extends Action<string> {
   type: string;
-  payload?: any;
+  payload?: T;
 }
 
-export type ThunkResult<R> = ThunkAction<R, IApplicationStore, undefined, Action>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  IApplicationStore,
+  unknown,
+  AnyAction
+>;
 
 export type Gender = 'Any' | 'Male' | 'Female';
 

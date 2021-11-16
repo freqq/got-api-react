@@ -1,10 +1,10 @@
-import { ActionInterface, Character } from 'common/types';
+import { IAction, Character } from 'common/types';
 import {
+  CharactersUnion,
   LIST_OF_CHARACTERS_LOADING,
   LIST_OF_CHARACTERS_OK,
   LIST_OF_CHARACTERS_FAIL,
 } from 'actions/charactersActions';
-
 export interface ICharacters {
   data: Character[];
   isError: boolean;
@@ -17,7 +17,10 @@ export const REDUCER_INITIAL_STATE: ICharacters = {
   isFetching: true,
 };
 
-export const characters = (state: ICharacters, { type, payload }: ActionInterface): ICharacters => {
+export const characters = (
+  state: ICharacters,
+  { type, payload }: IAction<CharactersUnion>,
+): ICharacters => {
   const stateDefinition = typeof state === 'undefined' ? REDUCER_INITIAL_STATE : state;
   switch (type) {
     case LIST_OF_CHARACTERS_OK:
@@ -25,7 +28,7 @@ export const characters = (state: ICharacters, { type, payload }: ActionInterfac
         ...stateDefinition,
         isError: false,
         isFetching: false,
-        data: payload.charactersList,
+        data: payload as Character[],
       };
     case LIST_OF_CHARACTERS_FAIL:
       return { ...stateDefinition, isFetching: false, isError: true };

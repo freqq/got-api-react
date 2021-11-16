@@ -1,25 +1,27 @@
 import { getHouseData } from 'handlers/apiHandler';
-import { ActionInterface, ThunkResult, House } from 'common/types';
+import { IAction, AppThunk, House } from 'common/types';
 
 export const HOUSE_DATA_LOADING = 'HOUSE_DATA_LOADING';
 export const HOUSE_DATA_OK = 'HOUSE_DATA_OK';
 export const HOUSE_DATA_FAIL = 'HOUSE_DATA_FAIL';
 
-export const makeHouseDataLoading = (): ActionInterface => ({
+export type HouseUnion = void | House;
+
+export const makeHouseDataLoading = (): IAction => ({
   type: HOUSE_DATA_LOADING,
 });
 
-export const makeHouseDataFail = (): ActionInterface => ({
+export const makeHouseDataFail = (): IAction => ({
   type: HOUSE_DATA_FAIL,
 });
 
-export const makeHouseDataOk = (houseData: House): ActionInterface => ({
+export const makeHouseDataOk = (houseData: House): IAction<House> => ({
   type: HOUSE_DATA_OK,
-  payload: { houseData },
+  payload: houseData,
 });
 
 export const fetchHouseData =
-  (houseId: string): ThunkResult<Promise<void>> =>
+  (houseId: string): AppThunk =>
   async dispatch => {
     dispatch(makeHouseDataLoading());
 

@@ -19,6 +19,9 @@ declare global {
   }
 }
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 export interface IApplicationStore {
   characters: ICharacters;
   charactersFilter: ICharactersFilter;
