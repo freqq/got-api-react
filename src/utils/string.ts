@@ -1,8 +1,8 @@
 import { getURLParams, extractURLFromLinkResponseHeader } from 'utils/url';
 import { ResponseHeaders } from 'common/types';
 
-export const printArrayOfStringsAfterComma = (stringArray: string[]): string =>
-  stringArray.join(', ');
+export const joinStringArrayByCharacter = (stringArray: string[], character: string): string =>
+  stringArray.join(character);
 
 export const isEmpty = (str: string): boolean => !str || str.length === 0;
 

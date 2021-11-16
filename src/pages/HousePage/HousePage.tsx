@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import GenericPage from 'pages/GenericPage';
 import Card from 'components/Card';

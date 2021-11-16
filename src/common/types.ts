@@ -16,7 +16,6 @@ export interface Character {
   name: string;
   gender: string;
   culture: string;
-  bortn: string;
   born: string;
   died: string;
   titles: string[];

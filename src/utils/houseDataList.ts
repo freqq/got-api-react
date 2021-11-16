@@ -1,5 +1,5 @@
 import { CardData, House } from 'common/types';
-import { printArrayOfStringsAfterComma } from 'utils/string';
+import { joinStringArrayByCharacter } from 'utils/string';
 
 import nameIcon from 'assets/name.svg';
 import regionIcon from 'assets/region.svg';
@@ -34,12 +34,12 @@ export const houseDataList = (houseData: House): CardData[] => [
   },
   {
     name: 'Titles',
-    value: printArrayOfStringsAfterComma(houseData.titles),
+    value: joinStringArrayByCharacter(houseData.titles, ', '),
     icon: titlesIcon,
   },
   {
     name: 'Seats',
-    value: printArrayOfStringsAfterComma(houseData.seats),
+    value: joinStringArrayByCharacter(houseData.seats, ', '),
     icon: seatsIcon,
   },
   {

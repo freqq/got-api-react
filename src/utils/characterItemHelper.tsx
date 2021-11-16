@@ -1,5 +1,5 @@
 import {
-  printArrayOfStringsAfterComma,
+  joinStringArrayByCharacter,
   isEmpty,
   isNumberInString,
   getNumberFromString,
@@ -12,7 +12,10 @@ export const getHouseIdFromLink = (allegiance: string): string | undefined =>
   allegiance.split('/').pop();
 
 export const getCharacterName = (name: string, aliases: string[]): string =>
-  printArrayOfStringsAfterComma([name, ...aliases].filter((text: string) => text !== ''));
+  joinStringArrayByCharacter(
+    [name, ...aliases].filter((text: string) => text !== ''),
+    ', ',
+  );
 
 export const getCharacterAliveField = (born: string, died: string): string => {
   if ((isEmpty(born) && isEmpty(died)) || (!isNumberInString(died) && !isNumberInString(born)))
