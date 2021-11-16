@@ -26,7 +26,7 @@ const RESPONSE_HEADERS = {
 };
 const SAMPLE_CHARACTER: Character = {
   name: 'Character name',
-  url: 'http://www.google.com',
+  url: 'https://www.google.com',
   culture: 'culture',
   born: 'born',
   died: 'died',
