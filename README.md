@@ -2,5 +2,6 @@
 
 Typescript/React/styled-components/axios
 
-## TODO:
-- Remove all :any marks
+# Link to app:
+
+Application available at [https://got-api-freq.herokuapp.com](https://got-api-freq.herokuapp.com).
