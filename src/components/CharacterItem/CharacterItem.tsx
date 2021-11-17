@@ -17,12 +17,13 @@ import { Character } from 'common/types';
 
 const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
   const history = useHistory();
+  const { name, aliases, gender, culture, allegiances, died, born } = characterData;
 
-  const areHousesAvailable = (allegiances: string[]): boolean => allegiances.length !== 0;
+  const areHousesAvailable = (): boolean => allegiances.length !== 0;
 
   const goToHousePage = (houseId: string) => history.push(`/house/${houseId}`);
 
-  const getCharacterHouseIds = (allegiances: string[]) => (
+  const getCharacterHouseIds = () => (
     <CharacterHouses>
       {allegiances.map((allegiance: string) => {
         const houseId = getHouseIdFromLink(allegiance);
@@ -38,17 +39,13 @@ const CharacterItem: React.FC<Props> = ({ characterData }: Props) => {
 
   return (
     <CharacterWrapper>
+      <CharacterColumnItem>{getCharacterName(name, aliases)}</CharacterColumnItem>
+      <CharacterColumnItem>{getCharacterAliveField(born, died)}</CharacterColumnItem>
+      <CharacterColumnItem>{gender}</CharacterColumnItem>
+      <CharacterColumnItem>{culture || 'Unknown'}</CharacterColumnItem>
       <CharacterColumnItem>
-        {getCharacterName(characterData.name, characterData.aliases)}
-      </CharacterColumnItem>
-      <CharacterColumnItem>
-        {getCharacterAliveField(characterData.born, characterData.died)}
-      </CharacterColumnItem>
-      <CharacterColumnItem>{characterData.gender}</CharacterColumnItem>
-      <CharacterColumnItem>{characterData.culture || 'Unknown'}</CharacterColumnItem>
-      <CharacterColumnItem>
-        {areHousesAvailable(characterData.allegiances) ? (
-          getCharacterHouseIds(characterData.allegiances)
+        {areHousesAvailable() ? (
+          getCharacterHouseIds()
         ) : (
           <CharacterItemParagraph>No allegiances</CharacterItemParagraph>
         )}
